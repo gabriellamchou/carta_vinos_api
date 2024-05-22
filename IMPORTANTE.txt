@@ -1,0 +1,2 @@
+en config/Rest.php
+Revisar el tema CORS ya que está permitido para todo el mundo y no debería suceder en producción
