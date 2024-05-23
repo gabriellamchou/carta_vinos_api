@@ -31,7 +31,10 @@ class Test extends REST_Controller {
         // Recibo los datos
 		$data = json_decode(file_get_contents('php://input'));
 		$clienteId = $data->clienteId;
-		$this->set_response(['status' => true, 'message' => 'Cliente añadido correctamente'], REST_Controller::HTTP_OK);			
+		$this->set_response([
+			'status' => true, 'message' => 'Cliente añadido correctamente'
+		], 
+		REST_Controller::HTTP_OK);
 	}    
 }
 

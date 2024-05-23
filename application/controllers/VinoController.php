@@ -9,13 +9,15 @@ require APPPATH . 'libraries/Format.php';
 class VinoController extends REST_Controller
 {
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
 
         $this->load->model('VinoModel');
     }
 
-    public function vinos_get() {
+    public function vinos_get()
+    {
 
         $lista_vinos = $this->VinoModel->obtener_vinos_list();
 
@@ -26,7 +28,8 @@ class VinoController extends REST_Controller
         $this->set_response($datos, REST_Controller::HTTP_OK);
     }
 
-    public function vino_get() {
+    public function vino_get()
+    {
 
         $id = $this->uri->segment(2);
 
@@ -39,11 +42,12 @@ class VinoController extends REST_Controller
         $this->set_response($vino, REST_Controller::HTTP_OK);
     }
 
-    public function vino_post() {
+    public function vino_post()
+    {
+        foreach ($_POST as $key => $value) {
+            $datos[$key] = $value;
+        }
 
-        
-
+        $this->set_response($datos, REST_Controller::HTTP_OK);
     }
 }
-
-?>

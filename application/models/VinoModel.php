@@ -60,6 +60,7 @@ class VinoModel extends CI_Model
         return ($rows);
     }
 
+    # Devuelve vino por id
     public function obtener_vino($id)
     {
         $this->db->select(
@@ -87,6 +88,10 @@ class VinoModel extends CI_Model
         $rows = $query->result();
 
         return ($rows);
+    }
+
+    public function insert_vino() {
+
     }
 
 }
