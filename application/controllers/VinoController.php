@@ -42,14 +42,18 @@ class VinoController extends REST_Controller
     {
         $vino = new VinoModel;
         $data = [
-            'id' => $this->input->post('id'),
-            'nombre' => $this->input->post('nombre'),
-            'precio' => $this->input->post('precio'),
-            'alergenos' => $this->input->post('alergenos'),
-            'graduacion' => $this->input->post('graduacion'),
-            'breveDescripcion' => $this->input->post('breveDescripcion'),
-            'capacidad' => $this->input->post('capacidad'),
-            'stock' => $this->input->post('stock')
+            'Id' => $this->input->post('id'),
+            'Nombre' => $this->input->post('nombre'),
+            'Precio' => $this->input->post('precio'),
+            'IdRegion' => $this->input->post('region'),
+            'IdTipoVino' => $this->input->post('tipo'),
+            'IdBodega' => $this->input->post('bodega'),
+            'Anada' => $this->input->post('anada'),
+            'Alergenos' => $this->input->post('alergenos'),
+            'Graduacion' => $this->input->post('graduacion'),
+            'BreveDescripcion' => $this->input->post('breveDescripcion'),
+            'Capacidad' => $this->input->post('capacidad'),
+            'Stock' => $this->input->post('stock')
         ];
         $result = $vino->insert_vino($data);
 
@@ -66,4 +70,17 @@ class VinoController extends REST_Controller
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
     }
+
+    public function regiones_get()
+    {
+
+        $lista_regiones = $this->VinoModel->obtener_vinos_list();
+
+        $datos = array(
+            'lista_regiones' => $lista_regiones
+        );
+
+        $this->set_response($datos, REST_Controller::HTTP_OK);
+    }
+
 }
