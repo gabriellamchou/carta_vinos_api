@@ -18,7 +18,6 @@ class VinoController extends REST_Controller
 
     public function vinos_get()
     {
-
         $lista_vinos = $this->VinoModel->obtener_vinos_list();
 
         $datos = array(
@@ -30,7 +29,6 @@ class VinoController extends REST_Controller
 
     public function vino_get()
     {
-
         $id = $this->uri->segment(2);
 
         $vino = $this->VinoModel->obtener_vino($id);
@@ -73,8 +71,7 @@ class VinoController extends REST_Controller
 
     public function regiones_get()
     {
-
-        $lista_regiones = $this->VinoModel->obtener_vinos_list();
+        $lista_regiones = $this->VinoModel->obtener_regiones_list();
 
         $datos = array(
             'lista_regiones' => $lista_regiones

@@ -96,6 +96,27 @@ class VinoModel extends CI_Model
         return $this->db->insert('vino', $data);
     }
 
+    # Devuelve la lista de todas las regiones
+    public function obtener_regiones_list()
+    {
+        $this->db->select(
+            "r.Id, 
+            r.Nombre, 
+            r.Pais,
+            r.Descripcion"
+        );
+        $this->db->from("region AS r");
+        // $this->db->join("tipo AS t", "v.IdTipoVino = t.Id");
+        // $this->db->join("region AS r", "v.IdRegion = r.Id");
+        // $this->db->join("bodega AS b", "v.IdBodega = b.Id");
+
+        $query = $this->db->get();
+
+        $rows = $query->result_array();
+
+        return ($rows);
+    }
+
 }
 
 ?>
