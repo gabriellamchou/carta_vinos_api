@@ -6,6 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['vinos'] = 'VinoController/vinos';
 $route['vinos/(:num)'] = 'VinoController/vino';
 $route['vinos/nuevo'] = 'VinoController/storeVino';
+$route['vinos/(:num)/editar'] = 'VinoController/editVino/$1';
 
 # Regiones
 

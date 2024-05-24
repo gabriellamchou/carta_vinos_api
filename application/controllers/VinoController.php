@@ -60,11 +60,42 @@ class VinoController extends REST_Controller
                 'status' => true,
                 'message' => 'Nuevo vino creado'
             ], REST_Controller::HTTP_OK);
-        } 
-        else {
+        } else {
             $this->response([
                 'status' => false,
                 'message' => 'Error al crear nuevo vino'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public function editVino_put($id)
+    {
+        $vino = new VinoModel;
+        $data = [
+            'Id' => $this->put('id'),
+            'Nombre' => $this->put('nombre'),
+            'Precio' => $this->put('precio'),
+            'IdRegion' => $this->put('region'),
+            'IdTipoVino' => $this->put('tipo'),
+            'IdBodega' => $this->put('bodega'),
+            'Anada' => $this->put('anada'),
+            'Alergenos' => $this->put('alergenos'),
+            'Graduacion' => $this->put('graduacion'),
+            'BreveDescripcion' => $this->put('breveDescripcion'),
+            'Capacidad' => $this->put('capacidad'),
+            'Stock' => $this->put('stock')
+        ];
+        $update_result = $vino->update_vino($id, $data);
+
+        if ($update_result > 0) {
+            $this->response([
+                'status' => true,
+                'message' => 'Vino modificado'
+            ], REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Error al modificar vino'
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
     }
@@ -79,5 +110,4 @@ class VinoController extends REST_Controller
 
         $this->set_response($datos, REST_Controller::HTTP_OK);
     }
-
 }

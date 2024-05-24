@@ -96,6 +96,13 @@ class VinoModel extends CI_Model
         return $this->db->insert('vino', $data);
     }
 
+    # Edita un vino
+    public function update_vino($id, $data) 
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('vino', $data);
+    }
+
     # Devuelve la lista de todas las regiones
     public function obtener_regiones_list()
     {
