@@ -7,6 +7,10 @@ $route['vinos'] = 'VinoController/vinos';
 $route['vinos/(:num)'] = 'VinoController/vino';
 $route['vinos/nuevo'] = 'VinoController/storeVino';
 
+# Regiones
+
+$route['regiones'] = 'VinoController/regiones';
+
 # Tests
 
 $route['default_controller'] = 'welcome';
