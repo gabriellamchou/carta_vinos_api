@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $route['vinos'] = 'VinoController/vinos';
 $route['vinos/(:num)'] = 'VinoController/vino';
-$route['vinos/nuevo'] = 'VinoController/vino';
+$route['vinos/nuevo'] = 'VinoController/storeVino';
 
 # Tests
 

@@ -35,19 +35,35 @@ class VinoController extends REST_Controller
 
         $vino = $this->VinoModel->obtener_vino($id);
 
-        // $datos = array(
-        //     'lista_vinos' => $vino
-        // );
-
         $this->set_response($vino, REST_Controller::HTTP_OK);
     }
 
-    public function vino_post()
+    public function storeVino_post()
     {
-        foreach ($_POST as $key => $value) {
-            $datos[$key] = $value;
-        }
+        $vino = new VinoModel;
+        $data = [
+            'id' => $this->input->post('id'),
+            'nombre' => $this->input->post('nombre'),
+            'precio' => $this->input->post('precio'),
+            'alergenos' => $this->input->post('alergenos'),
+            'graduacion' => $this->input->post('graduacion'),
+            'breveDescripcion' => $this->input->post('breveDescripcion'),
+            'capacidad' => $this->input->post('capacidad'),
+            'stock' => $this->input->post('stock')
+        ];
+        $result = $vino->insert_vino($data);
 
-        $this->set_response($datos, REST_Controller::HTTP_OK);
+        if ($result > 0) {
+            $this->response([
+                'status' => true,
+                'message' => 'Nuevo vino creado'
+            ], REST_Controller::HTTP_OK);
+        } 
+        else {
+            $this->response([
+                'status' => false,
+                'message' => 'Error al crear nuevo vino'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
     }
 }

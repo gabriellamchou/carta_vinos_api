@@ -90,8 +90,10 @@ class VinoModel extends CI_Model
         return ($rows);
     }
 
-    public function insert_vino() {
-
+    # Inserta un vino
+    public function insert_vino($data)
+    {
+        return $this->db->insert('vino', $data);
     }
 
 }
