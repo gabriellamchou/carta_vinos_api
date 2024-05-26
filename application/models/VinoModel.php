@@ -124,6 +124,11 @@ class VinoModel extends CI_Model
         return ($rows);
     }
 
+    public function delete_vino($id) 
+    {
+        return $this->db->delete('vino', ['id' => $id]);
+    }
+
 }
 
 ?>

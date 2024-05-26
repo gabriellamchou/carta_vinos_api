@@ -7,6 +7,7 @@ $route['vinos'] = 'VinoController/vinos';
 $route['vinos/(:num)'] = 'VinoController/vino';
 $route['vinos/nuevo'] = 'VinoController/storeVino';
 $route['vinos/(:num)/editar'] = 'VinoController/editVino/$1';
+$route['vinos/(:num)/eliminar'] = 'VinoController/deleteVino/$1';
 
 # Regiones
 
