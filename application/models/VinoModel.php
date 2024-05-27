@@ -35,10 +35,15 @@ class VinoModel extends CI_Model
             v.Nombre, 
             v.Precio, 
             v.IdTipoVino AS TipoId,
-            t.nombre AS TipoNombre,
-            t.descripcion AS TipoDescripcion,
-            v.IdRegion AS Region,
-            v.IdBodega AS Bodega,
+            t.Nombre AS TipoNombre,
+            t.Descripcion AS TipoDescripcion,
+            v.IdRegion AS RegionId,
+            r.Nombre AS RegionNombre,
+            r.Pais AS RegionPais,
+            r.Descripcion AS RegionDescripcion,
+            v.IdBodega AS BodegaId,
+            b.Nombre AS BodegaNombre,
+            b.Descripcion AS BodegaDescripcion,
             v.Anada,
             v.Alergenos,
             v.Graduacion,
@@ -48,8 +53,8 @@ class VinoModel extends CI_Model
         );
         $this->db->from("vino AS v");
         $this->db->join("tipo AS t", "v.IdTipoVino = t.Id", "left");
-        // $this->db->join("region AS r", "v.IdRegion = r.Id");
-        // $this->db->join("bodega AS b", "v.IdBodega = b.Id");
+        $this->db->join("region AS r", "v.IdRegion = r.Id", "left");
+        $this->db->join("bodega AS b", "v.IdBodega = b.Id", "left");
 
         if(!empty($criterios["vinoId"])) {
             $this->db->where("v.Id", $criterios["vinoId"]);
@@ -69,11 +74,15 @@ class VinoModel extends CI_Model
             "v.Id, 
             v.Nombre, 
             v.Precio, 
-            v.IdTipoVino AS Tipo, 
+            v.IdTipoVino AS TipoId, 
             t.nombre AS TipoNombre,
             t.descripcion AS TipoDescripcion,
-            v.IdRegion AS Region,
-            v.IdBodega AS Bodega,
+            v.IdRegion AS RegionId,
+            r.Nombre AS RegionNombre,
+            r.Pais AS RegionPais,
+            v.IdBodega AS BodegaId,
+            b.Nombre AS BodegaNombre,
+            b.Descripcion AS BodegaDescripcion,
             v.Anada,
             v.Alergenos,
             v.Graduacion,
@@ -83,9 +92,9 @@ class VinoModel extends CI_Model
         );
         $this->db->from("vino AS v");
         $this->db->where("v.Id", $id);
-        $this->db->join("tipo AS t", "v.IdTipoVino = t.Id");
-        // $this->db->join("region AS r", "v.IdRegion = r.Id");
-        // $this->db->join("bodega AS b", "v.IdBodega = b.Id");
+        $this->db->join("tipo AS t", "v.IdTipoVino = t.Id", "left");
+        $this->db->join("region AS r", "v.IdRegion = r.Id", "left");
+        $this->db->join("bodega AS b", "v.IdBodega = b.Id", "left");
 
         $query = $this->db->get();
 
