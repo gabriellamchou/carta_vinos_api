@@ -27,10 +27,8 @@ class VinoController extends REST_Controller
         $this->set_response($datos, REST_Controller::HTTP_OK);
     }
 
-    public function vino_get()
+    public function vino_get($id)
     {
-        $id = $this->uri->segment(2);
-
         $vino = $this->VinoModel->obtener_vino($id);
 
         $this->set_response($vino, REST_Controller::HTTP_OK);
