@@ -34,7 +34,9 @@ class VinoModel extends CI_Model
             "v.Id, 
             v.Nombre, 
             v.Precio, 
-            v.IdTipoVino AS Tipo, 
+            v.IdTipoVino AS TipoId,
+            t.nombre AS TipoNombre,
+            t.descripcion AS TipoDescripcion,
             v.IdRegion AS Region,
             v.IdBodega AS Bodega,
             v.Anada,
@@ -45,7 +47,7 @@ class VinoModel extends CI_Model
             v.Stock"
         );
         $this->db->from("vino AS v");
-        // $this->db->join("tipo AS t", "v.IdTipoVino = t.Id");
+        $this->db->join("tipo AS t", "v.IdTipoVino = t.Id", "left");
         // $this->db->join("region AS r", "v.IdRegion = r.Id");
         // $this->db->join("bodega AS b", "v.IdBodega = b.Id");
 
@@ -68,6 +70,8 @@ class VinoModel extends CI_Model
             v.Nombre, 
             v.Precio, 
             v.IdTipoVino AS Tipo, 
+            t.nombre AS TipoNombre,
+            t.descripcion AS TipoDescripcion,
             v.IdRegion AS Region,
             v.IdBodega AS Bodega,
             v.Anada,
@@ -79,7 +83,7 @@ class VinoModel extends CI_Model
         );
         $this->db->from("vino AS v");
         $this->db->where("v.Id", $id);
-        // $this->db->join("tipo AS t", "v.IdTipoVino = t.Id");
+        $this->db->join("tipo AS t", "v.IdTipoVino = t.Id");
         // $this->db->join("region AS r", "v.IdRegion = r.Id");
         // $this->db->join("bodega AS b", "v.IdBodega = b.Id");
 
