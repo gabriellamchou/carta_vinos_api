@@ -113,6 +113,10 @@ class VinoModel extends CI_Model
             }
         }
 
+        foreach ($result as &$vino) {
+            unset($vino['ImagenPath']);
+        }
+
         return array_values($result);
     }
 
