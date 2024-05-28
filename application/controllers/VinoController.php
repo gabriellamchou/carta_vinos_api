@@ -108,8 +108,7 @@ class VinoController extends REST_Controller
         if ($update_result) {
             $this->response([
                 'status' => true,
-                'message' => 'Vino modificado con éxito',
-                'data' => $data
+                'message' => 'Vino modificado con éxito'
             ], REST_Controller::HTTP_OK);
         } else {
             $this->response([

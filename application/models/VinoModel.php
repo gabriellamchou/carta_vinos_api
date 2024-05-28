@@ -56,7 +56,7 @@ class VinoModel extends CI_Model
         $this->db->join("region AS r", "v.IdRegion = r.Id", "left");
         $this->db->join("bodega AS b", "v.IdBodega = b.Id", "left");
 
-        if(!empty($criterios["vinoId"])) {
+        if (!empty($criterios["vinoId"])) {
             $this->db->where("v.Id", $criterios["vinoId"]);
         }
 
@@ -90,7 +90,10 @@ class VinoModel extends CI_Model
             v.BreveDescripcion,
             v.Capacidad,
             v.Stock,
-            i.ImagenPath"
+            i.ImagenPath,
+            u.Id AS UvaId,
+            u.Nombre AS UvaNombre,
+            uv.Porcentaje AS UvaPorcentaje"
         );
         $this->db->from("vino AS v");
         $this->db->where("v.Id", $id);
@@ -98,6 +101,8 @@ class VinoModel extends CI_Model
         $this->db->join("region AS r", "v.IdRegion = r.Id", "left");
         $this->db->join("bodega AS b", "v.IdBodega = b.Id", "left");
         $this->db->join("imagen_vino AS i", "i.IdVino = v.Id", "left");
+        $this->db->join("uva_vino AS uv", "uv.IdVino = v.Id", "left");
+        $this->db->join("uva AS u", "u.Id = uv.IdUva", "left");
 
         $query = $this->db->get();
 
@@ -107,14 +112,36 @@ class VinoModel extends CI_Model
             if (!isset($result[$row['Id']])) {
                 $result[$row['Id']] = $row;
                 $result[$row['Id']]['Imagenes'] = [];
+                $result[$row['Id']]['Uvas'] = [];
             }
             if ($row['ImagenPath']) {
-                $result[$row['Id']]['Imagenes'][] = $row['ImagenPath'];
+                if (!in_array($row['ImagenPath'], $result[$row['Id']]['Imagenes'])) {
+                    $result[$row['Id']]['Imagenes'][] = $row['ImagenPath'];
+                }
+            }
+            if ($row['UvaId']) {
+                $uvaExiste = false;
+                foreach ($result[$row['Id']]['Uvas'] as $uva) {
+                    if ($uva['Id'] == $row['UvaId']) {
+                        $uvaExiste = true;
+                        break;
+                    }
+                }
+                if (!$uvaExiste) {
+                    $result[$row['Id']]['Uvas'][] = [
+                        'Id' => $row['UvaId'],
+                        'Nombre' => $row['UvaNombre'],
+                        'Porcentaje' => $row['UvaPorcentaje']
+                    ];
+                }
             }
         }
 
         foreach ($result as &$vino) {
             unset($vino['ImagenPath']);
+            unset($vino['UvaId']);
+            unset($vino['UvaNombre']);
+            unset($vino['UvaPorcentaje']);
         }
 
         return array_values($result);
@@ -128,13 +155,13 @@ class VinoModel extends CI_Model
     }
 
     # Edita un vino
-    public function update_vino($id, $data, $imagenes) 
+    public function update_vino($id, $data, $imagenes)
     {
         $this->db->trans_start();
 
         $this->db->where('id', $id);
         $this->db->update('vino', $data);
-        
+
         $this->db->where('IdVino', $id);
         $this->db->delete('imagen_vino');
 
@@ -174,7 +201,7 @@ class VinoModel extends CI_Model
         return ($rows);
     }
 
-    public function delete_vino($id) 
+    public function delete_vino($id)
     {
         $this->db->trans_start();
 
@@ -189,7 +216,4 @@ class VinoModel extends CI_Model
 
         return $this->db->trans_status();
     }
-
 }
-
-?>
