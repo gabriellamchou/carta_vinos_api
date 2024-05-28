@@ -148,10 +148,41 @@ class VinoModel extends CI_Model
     }
 
     # Inserta un vino
-    public function insert_vino($data)
+    public function insert_vino($data, $imagenes, $uvas)
     {
+        $this->db->trans_start();
+
         $this->db->insert('vino', $data);
-        return $this->db->insert_id();
+        $vino_id = $this->db->insert_id();
+
+        if ($vino_id) {
+            if (is_array($imagenes)) {
+                foreach ($imagenes as $tipo => $url) {
+                    if (!empty($url)) {
+                        $imagen_data = [
+                            'IdVino' => $vino_id,
+                            'Nombre' => $tipo,
+                            'ImagenPath' => $url
+                        ];
+                        $this->db->insert('imagen_vino', $imagen_data);
+                    }
+                }
+            }
+            if (is_array($uvas)) {
+                foreach ($uvas as $uva) {
+                    $uva_data = [
+                        'IdVino' => $vino_id,
+                        'IdUva' => $uva['id'],
+                        'Porcentaje' => $uva['porcentaje']
+                    ];
+                    $this->db->insert('uva_vino', $uva_data);
+                }
+            }
+        }
+
+        $this->db->trans_complete();
+
+        return $this->db->trans_status();
     }
 
     # Edita un vino
@@ -180,27 +211,6 @@ class VinoModel extends CI_Model
         return $this->db->trans_status();
     }
 
-    # Devuelve la lista de todas las regiones
-    public function obtener_regiones_list()
-    {
-        $this->db->select(
-            "r.Id, 
-            r.Nombre, 
-            r.Pais,
-            r.Descripcion"
-        );
-        $this->db->from("region AS r");
-        // $this->db->join("tipo AS t", "v.IdTipoVino = t.Id");
-        // $this->db->join("region AS r", "v.IdRegion = r.Id");
-        // $this->db->join("bodega AS b", "v.IdBodega = b.Id");
-
-        $query = $this->db->get();
-
-        $rows = $query->result_array();
-
-        return ($rows);
-    }
-
     public function delete_vino($id)
     {
         $this->db->trans_start();
@@ -208,6 +218,10 @@ class VinoModel extends CI_Model
         // Eliminamos imágenes asociadas al vino
         $this->db->where('IdVino', $id);
         $this->db->delete('imagen_vino');
+
+        // Eliminamos las relaciones del vino con uva_vino 
+        $this->db->where('IdVino', $id);
+        $this->db->delete('uva_vino');
 
         // Eliminamos el vino en sí
         $this->db->delete('vino', ['id' => $id]);
