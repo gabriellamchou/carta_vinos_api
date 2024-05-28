@@ -14,6 +14,7 @@ class VinoController extends REST_Controller
         parent::__construct();
 
         $this->load->model('VinoModel');
+        $this->load->model('ImagenVinoModel');
     }
 
     public function vinos_get()
@@ -51,9 +52,22 @@ class VinoController extends REST_Controller
             'Capacidad' => $this->input->post('capacidad'),
             'Stock' => $this->input->post('stock')
         ];
-        $result = $vino->insert_vino($data);
+        $vino_id = $this->VinoModel->insert_vino($data);
 
-        if ($result > 0) {
+        if ($vino_id) {
+            $imagenes = $this->input->post('imagenes');
+
+            foreach ($imagenes as $tipo => $url) {
+                if (!empty($url)) {
+                    $imagen_data = [
+                        'IdVino' => $vino_id,
+                        'Nombre' => $tipo,
+                        'ImagenPath' => $url
+                    ];
+                    $this->ImagenVinoModel->insert_imagen($imagen_data);
+                }
+            }
+            
             $this->response([
                 'status' => true,
                 'message' => 'Nuevo vino creado'
@@ -90,7 +104,7 @@ class VinoController extends REST_Controller
                 'status' => true,
                 'message' => 'Vino modificado con éxito',
                 'data' => $data
-                ], REST_Controller::HTTP_OK);
+            ], REST_Controller::HTTP_OK);
         } else {
             $this->response([
                 'status' => false,

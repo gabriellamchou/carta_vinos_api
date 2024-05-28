@@ -123,7 +123,8 @@ class VinoModel extends CI_Model
     # Inserta un vino
     public function insert_vino($data)
     {
-        return $this->db->insert('vino', $data);
+        $this->db->insert('vino', $data);
+        return $this->db->insert_id();
     }
 
     # Edita un vino
