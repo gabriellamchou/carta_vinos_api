@@ -37,7 +37,6 @@ class VinoController extends REST_Controller
 
     public function storeVino_post()
     {
-        $vino = new VinoModel;
         $data = [
             'Id' => $this->input->post('id'),
             'Nombre' => $this->input->post('nombre'),
@@ -118,17 +117,6 @@ class VinoController extends REST_Controller
                 'message' => 'Error al modificar vino'
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
-    }
-
-    public function regiones_get()
-    {
-        $lista_regiones = $this->VinoModel->obtener_regiones_list();
-
-        $datos = array(
-            'lista_regiones' => $lista_regiones
-        );
-
-        $this->set_response($datos, REST_Controller::HTTP_OK);
     }
 
     public function deleteVino_delete($id)
