@@ -157,7 +157,18 @@ class VinoModel extends CI_Model
 
     public function delete_vino($id) 
     {
-        return $this->db->delete('vino', ['id' => $id]);
+        $this->db->trans_start();
+
+        // Eliminamos imágenes asociadas al vino
+        $this->db->where('IdVino', $id);
+        $this->db->delete('imagen_vino');
+
+        // Eliminamos el vino en sí
+        $this->db->delete('vino', ['id' => $id]);
+
+        $this->db->trans_complete();
+
+        return $this->db->trans_status();
     }
 
 }

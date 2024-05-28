@@ -127,7 +127,7 @@ class VinoController extends REST_Controller
     public function deleteVino_delete($id)
     {
         $vino = new VinoModel;
-        $result = $vino->delete_Vino($id);
+        $result = $vino->delete_vino($id);
         if ($result) {
             $this->response([
                 'status' => true,
