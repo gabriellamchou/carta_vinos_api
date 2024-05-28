@@ -186,7 +186,7 @@ class VinoModel extends CI_Model
     }
 
     # Edita un vino
-    public function update_vino($id, $data, $imagenes)
+    public function update_vino($id, $data, $imagenes, $uvas)
     {
         $this->db->trans_start();
 
@@ -203,6 +203,22 @@ class VinoModel extends CI_Model
                     'Nombre' => $tipo,
                     'ImagenPath' => $url
                 ]);
+            }
+        }
+
+        // Eliminar las uvas existentes
+        $this->db->where('IdVino', $id);
+        $this->db->delete('uva_vino');
+
+        // Insertar las nuevas uvas
+        if (is_array($uvas)) {
+            foreach ($uvas as $uva) {
+                $uva_data = [
+                    'IdVino' => $id,
+                    'IdUva' => $uva['id'],
+                    'Porcentaje' => $uva['porcentaje']
+                ];
+                $this->db->insert('uva_vino', $uva_data);
             }
         }
 

@@ -86,13 +86,10 @@ class VinoController extends REST_Controller
             'Stock' => $this->put('stock')
         ];
 
-        $imagenes = [
-            'imgAnv' => $this->put('imagenes')['imgAnv'],
-            'imgRev' => $this->put('imagenes')['imgRev'],
-            'imgDet' => $this->put('imagenes')['imgDet']
-        ];
+        $imagenes = $this->put('imagenes');
+        $uvas = $this->put('uvas');
 
-        $update_result = $vino->update_vino($id, $data, $imagenes);
+        $update_result = $vino->update_vino($id, $data, $imagenes, $uvas);
 
         if ($update_result) {
             $this->response([
