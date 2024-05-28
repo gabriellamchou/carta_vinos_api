@@ -128,10 +128,29 @@ class VinoModel extends CI_Model
     }
 
     # Edita un vino
-    public function update_vino($id, $data) 
+    public function update_vino($id, $data, $imagenes) 
     {
+        $this->db->trans_start();
+
         $this->db->where('id', $id);
-        return $this->db->update('vino', $data);
+        $this->db->update('vino', $data);
+        
+        $this->db->where('IdVino', $id);
+        $this->db->delete('imagen_vino');
+
+        foreach ($imagenes as $tipo => $url) {
+            if ($url) {
+                $this->db->insert('imagen_vino', [
+                    'IdVino' => $id,
+                    'Nombre' => $tipo,
+                    'ImagenPath' => $url
+                ]);
+            }
+        }
+
+        $this->db->trans_complete();
+
+        return $this->db->trans_status();
     }
 
     # Devuelve la lista de todas las regiones
