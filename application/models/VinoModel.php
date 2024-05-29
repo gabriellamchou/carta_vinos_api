@@ -90,7 +90,7 @@ class VinoModel extends CI_Model
             v.BreveDescripcion,
             v.Capacidad,
             v.Stock,
-            i.ImagenPath,
+            i.Imagen AS Imagen,
             u.Id AS UvaId,
             u.Nombre AS UvaNombre,
             uv.Porcentaje AS UvaPorcentaje"
@@ -114,10 +114,8 @@ class VinoModel extends CI_Model
                 $result[$row['Id']]['Imagenes'] = [];
                 $result[$row['Id']]['Uvas'] = [];
             }
-            if ($row['ImagenPath']) {
-                if (!in_array($row['ImagenPath'], $result[$row['Id']]['Imagenes'])) {
-                    $result[$row['Id']]['Imagenes'][] = $row['ImagenPath'];
-                }
+            if ($row['Imagen']) {
+                $result[$row['Id']]['Imagenes'][] = $row['Imagen'];
             }
             if ($row['UvaId']) {
                 $uvaExiste = false;
@@ -138,7 +136,7 @@ class VinoModel extends CI_Model
         }
 
         foreach ($result as &$vino) {
-            unset($vino['ImagenPath']);
+            unset($vino['Imagen']);
             unset($vino['UvaId']);
             unset($vino['UvaNombre']);
             unset($vino['UvaPorcentaje']);
@@ -157,12 +155,12 @@ class VinoModel extends CI_Model
 
         if ($vino_id) {
             if (is_array($imagenes)) {
-                foreach ($imagenes as $tipo => $url) {
-                    if (!empty($url)) {
+                foreach ($imagenes as $tipo => $blob) {
+                    if (!empty($blob)) {
                         $imagen_data = [
                             'IdVino' => $vino_id,
                             'Nombre' => $tipo,
-                            'ImagenPath' => $url
+                            'Imagen' => $blob
                         ];
                         $this->db->insert('imagen_vino', $imagen_data);
                     }
@@ -196,13 +194,14 @@ class VinoModel extends CI_Model
         $this->db->where('IdVino', $id);
         $this->db->delete('imagen_vino');
 
-        foreach ($imagenes as $tipo => $url) {
-            if ($url) {
-                $this->db->insert('imagen_vino', [
+        foreach ($imagenes as $tipo => $blob) {
+            if (!empty($blob)) {
+                $imagen_data = [
                     'IdVino' => $id,
                     'Nombre' => $tipo,
-                    'ImagenPath' => $url
-                ]);
+                    'Imagen' => $blob
+                ];
+                $this->db->insert('imagen_vino', $imagen_data);
             }
         }
 

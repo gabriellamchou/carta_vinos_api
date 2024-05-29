@@ -31,7 +31,24 @@ class VinoController extends REST_Controller
     {
         $vino = $this->VinoModel->obtener_vino($id);
 
-        $this->set_response($vino, REST_Controller::HTTP_OK);
+        if ($vino) {
+            // Convertir imágenes a data URLs
+            foreach ($vino[0]['Imagenes'] as $key => $image) {
+                if ($image) {
+                    $vino[0]['Imagenes'][$key] = 'data:image/jpeg;base64,' . base64_encode($image);
+                }
+            }
+
+            $this->response([
+                'status' => true,
+                'data' => $vino[0]
+            ], REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Vino no encontrado'
+            ], REST_Controller::HTTP_NOT_FOUND);
+        }
     }
 
     public function storeVino_post()
@@ -50,7 +67,18 @@ class VinoController extends REST_Controller
             'Capacidad' => $this->input->post('capacidad'),
             'Stock' => $this->input->post('stock')
         ];
-        $imagenes = $this->input->post('imagenes');
+
+        $imagenes = [];
+        if (!empty($_FILES['imagenes'])) {
+            foreach ($_FILES['imagenes']['name'] as $key => $name) {
+                if ($_FILES['imagenes']['error'][$key] === UPLOAD_ERR_OK) {
+                    $tmp_name = $_FILES['imagenes']['tmp_name'][$key];
+                    $image_data = file_get_contents($tmp_name);
+                    $imagenes[$key] = $image_data;
+                }
+            }
+        }
+
         $uvas = $this->input->post('uvas');
 
         $result = $this->VinoModel->insert_vino($data, $imagenes, $uvas);
@@ -68,26 +96,36 @@ class VinoController extends REST_Controller
         }
     }
 
-    public function editVino_put($id)
+    public function editVino_post($id)
     {
         $vino = new VinoModel;
         $data = [
-            'Id' => $this->put('id'),
-            'Nombre' => $this->put('nombre'),
-            'Precio' => $this->put('precio'),
-            'IdRegion' => $this->put('region'),
-            'IdTipoVino' => $this->put('tipo'),
-            'IdBodega' => $this->put('bodega'),
-            'Anada' => $this->put('anada'),
-            'Alergenos' => $this->put('alergenos'),
-            'Graduacion' => $this->put('graduacion'),
-            'BreveDescripcion' => $this->put('breveDescripcion'),
-            'Capacidad' => $this->put('capacidad'),
-            'Stock' => $this->put('stock')
+            'Id' => $this->post('id'),
+            'Nombre' => $this->post('nombre'),
+            'Precio' => $this->post('precio'),
+            'IdRegion' => $this->post('region'),
+            'IdTipoVino' => $this->post('tipo'),
+            'IdBodega' => $this->post('bodega'),
+            'Anada' => $this->post('anada'),
+            'Alergenos' => $this->post('alergenos'),
+            'Graduacion' => $this->post('graduacion'),
+            'BreveDescripcion' => $this->post('breveDescripcion'),
+            'Capacidad' => $this->post('capacidad'),
+            'Stock' => $this->post('stock')
         ];
 
-        $imagenes = $this->put('imagenes');
-        $uvas = $this->put('uvas');
+        $imagenes = [];
+        if (!empty($_FILES['imagenes'])) {
+            foreach ($_FILES['imagenes']['name'] as $key => $name) {
+                if ($_FILES['imagenes']['error'][$key] === UPLOAD_ERR_OK) {
+                    $tmp_name = $_FILES['imagenes']['tmp_name'][$key];
+                    $image_data = file_get_contents($tmp_name);
+                    $imagenes[$key] = $image_data;
+                }
+            }
+        }
+
+        $uvas = $this->post('uvas');
 
         $update_result = $vino->update_vino($id, $data, $imagenes, $uvas);
 
