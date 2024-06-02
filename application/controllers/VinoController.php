@@ -98,7 +98,6 @@ class VinoController extends REST_Controller
 
     public function editVino_post($id)
     {
-        $vino = new VinoModel;
         $data = [
             'Id' => $this->post('id'),
             'Nombre' => $this->post('nombre'),
@@ -127,7 +126,7 @@ class VinoController extends REST_Controller
 
         $uvas = $this->post('uvas');
 
-        $update_result = $vino->update_vino($id, $data, $imagenes, $uvas);
+        $update_result = $this->VinoModel->update_vino($id, $data, $imagenes, $uvas);
 
         if ($update_result) {
             $this->response([
@@ -144,8 +143,7 @@ class VinoController extends REST_Controller
 
     public function deleteVino_delete($id)
     {
-        $vino = new VinoModel;
-        $result = $vino->delete_vino($id);
+        $result = $this->VinoModel->delete_vino($id);
         if ($result) {
             $this->response([
                 'status' => true,
