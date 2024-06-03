@@ -13,7 +13,8 @@ class UvaModel extends CI_Model
         $this->db = $this->load->database('default', true);
     }
 
-    public function obtener_uvas_list() {
+    public function obtener_uvas_list() 
+    {
         $this->db->select(
             "u.Id AS id,
             u.Nombre AS nombre,
@@ -29,7 +30,8 @@ class UvaModel extends CI_Model
         return ($rows);
     }
 
-    public function obtener_uva($id) {
+    public function obtener_uva($id) 
+    {
         $this->db->select(
             "u.Id AS id,
             u.Nombre AS nombre,
@@ -48,6 +50,34 @@ class UvaModel extends CI_Model
         $rows = $query->result_array();
 
         return $rows;
+    }
+
+    public function insert_uva($data) 
+    {
+        return $this->db->insert('uva', $data);
+    }
+
+    public function update_uva($id, $data) 
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('uva', $data);
+    }
+
+    public function delete_uva($id) 
+    {
+        $this->db->trans_start();
+
+        // Eliminamos las relaciones de la uva con uva_vino
+        $this->db->where('IdUva', $id);
+        $this->db->delete('uva_vino');
+
+        // Eliminamos la uva en sí
+        $this->db->where('Id', $id);
+        $this->db->delete('uva');
+
+        $this->db->trans_complete();
+
+        return $this->db->trans_status();
     }
 
 }
