@@ -27,4 +27,21 @@ class UvaController extends REST_Controller
         $this->set_response($datos, REST_Controller::HTTP_OK);
     }
 
+    public function uva_get($id)
+    {
+        $uva = $this->UvaModel->obtener_uva($id);
+
+        if ($uva) {
+            $this->response([
+                'status' => true,
+                'data' => $uva[0]
+            ], REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Vino no encontrado'
+            ], REST_Controller::HTTP_NOT_FOUND);
+        }
+    }
+
 }

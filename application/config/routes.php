@@ -12,6 +12,7 @@ $route['vinos/(:num)/eliminar'] = 'VinoController/deleteVino/$1';
 # Uvas
 
 $route['uvas'] = 'UvaController/uvas';
+$route['uvas/(:num)'] = 'UvaController/uva/$1';
 
 # Tests
 
