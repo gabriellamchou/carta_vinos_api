@@ -54,4 +54,16 @@ class RegionModel extends CI_Model
         return $this->db->insert('region', $data);
     }
 
+    public function update_region($id, $data) 
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('region', $data);
+    }
+
+    public function delete_region($id) 
+    {
+        $this->db->where('Id', $id);
+        return $this->db->delete('region');
+    }
+
 }

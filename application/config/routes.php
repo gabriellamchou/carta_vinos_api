@@ -22,6 +22,8 @@ $route['uvas/(:num)/eliminar'] = 'UvaController/deleteUva/$1';
 $route['regiones'] = 'RegionController/regiones';
 $route['regiones/(:num)'] = 'RegionController/region/$1';
 $route['regiones/nueva'] = 'RegionController/storeRegion';
+$route['regiones/(:num)/editar'] = 'RegionController/editRegion/$1';
+$route['regiones/(:num)/eliminar'] = 'RegionController/deleteRegion/$1';
 
 # Tests
 

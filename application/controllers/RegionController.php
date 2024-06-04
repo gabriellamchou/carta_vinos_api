@@ -16,7 +16,7 @@ class RegionController extends REST_Controller
         $this->load->model('RegionModel');
     }
 
-    public function regiones_get() 
+    public function regiones_get()
     {
         $lista_regiones = $this->RegionModel->obtener_regiones_list();
 
@@ -27,7 +27,7 @@ class RegionController extends REST_Controller
         $this->set_response($datos, REST_Controller::HTTP_OK);
     }
 
-    public function region_get($id) 
+    public function region_get($id)
     {
         $region = $this->RegionModel->obtener_region($id);
 
@@ -44,7 +44,7 @@ class RegionController extends REST_Controller
         }
     }
 
-    public function storeRegion_post() 
+    public function storeRegion_post()
     {
         $data = [
             'Id' => $this->input->post('id'),
@@ -54,6 +54,57 @@ class RegionController extends REST_Controller
         ];
 
         $result = $this->RegionModel->insert_region($data);
+
+        if ($result) {
+            $this->response([
+                'status' => true,
+                'message' => 'Nueva región creada'
+            ], REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Error al crear nueva región'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
     }
 
+    public function editRegion_put($id)
+    {
+        $data = [
+            'Id' => $this->put('id'),
+            'Nombre' => $this->put('nombre'),
+            'Pais' => $this->put('pais'),
+            'Descripcion' => $this->put('descripcion'),
+        ];
+
+        $update_result = $this->RegionModel->update_region($id, $data);
+
+        if ($update_result) {
+            $this->response([
+                'status' => true,
+                'message' => 'Región modificada con éxito'
+            ], REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Error al modificar región'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public function deleteRegion_delete($id)
+    {
+        $result = $this->RegionModel->delete_region($id);
+        if ($result) {
+            $this->response([
+                'status' => true,
+                'message' => 'Región eliminada'
+            ], REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Error al intentar eliminar región'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
 }
