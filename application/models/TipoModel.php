@@ -46,4 +46,21 @@ class TipoModel extends CI_Model
         return $rows;
     }
 
+    public function insert_tipo($data) 
+    {
+        return $this->db->insert('tipo', $data);
+    }
+
+    public function update_tipo($id, $data) 
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('tipo', $data);
+    }
+
+    public function delete_tipo($id) 
+    {
+        $this->db->where('Id', $id);
+        return $this->db->delete('tipo');
+    }
+
 }

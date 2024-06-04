@@ -43,4 +43,66 @@ class TipoController extends REST_Controller
         }
     }
 
+    public function storeTipo_post()
+    {
+        $data = [
+            'Id' => $this->input->post('id'),
+            'Nombre' => $this->input->post('nombre'),
+            'Descripcion' => $this->input->post('descripcion'),
+        ];
+
+        $result = $this->TipoModel->insert_tipo($data);
+
+        if ($result) {
+            $this->response([
+                'status' => true,
+                'message' => 'Nuevo tipo creado'
+            ], REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Error al crear nuevo tipo'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public function editTipo_put($id)
+    {
+        $data = [
+            'Id' => $this->put('id'),
+            'Nombre' => $this->put('nombre'),
+            'Descripcion' => $this->put('descripcion'),
+        ];
+
+        $update_result = $this->TipoModel->update_tipo($id, $data);
+
+        if ($update_result) {
+            $this->response([
+                'status' => true,
+                'message' => 'Tipo modificado con éxito'
+            ], REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Error al modificar tipo'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public function deleteTipo_delete($id)
+    {
+        $result = $this->TipoModel->delete_tipo($id);
+        if ($result) {
+            $this->response([
+                'status' => true,
+                'message' => 'Tipo eliminado'
+            ], REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Error al intentar eliminar tipo'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
 }
