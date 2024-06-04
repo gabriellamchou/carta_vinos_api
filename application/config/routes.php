@@ -33,6 +33,14 @@ $route['bodegas/nueva'] = 'BodegaController/storeBodega';
 $route['bodegas/(:num)/editar'] = 'BodegaController/editBodega/$1';
 $route['bodegas/(:num)/eliminar'] = 'BodegaController/deleteBodega/$1';
 
+# Tipos
+
+$route['tipos'] = 'TipoController/tipos';
+$route['tipos/(:num)'] = 'TipoController/tipo/$1';
+$route['tipos/nueva'] = 'TipoController/storeTipo';
+$route['tipos/(:num)/editar'] = 'TipoController/editTipo/$1';
+$route['tipos/(:num)/eliminar'] = 'TipoController/deleteTipo/$1';
+
 # Tests
 
 $route['default_controller'] = 'welcome';
