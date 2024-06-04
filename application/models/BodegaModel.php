@@ -46,4 +46,21 @@ class BodegaModel extends CI_Model
         return $rows;
     }
 
+    public function insert_bodega($data) 
+    {
+        return $this->db->insert('bodega', $data);
+    }
+
+    public function update_bodega($id, $data) 
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('bodega', $data);
+    }
+
+    public function delete_bodega($id) 
+    {
+        $this->db->where('Id', $id);
+        return $this->db->delete('bodega');
+    }
+
 }

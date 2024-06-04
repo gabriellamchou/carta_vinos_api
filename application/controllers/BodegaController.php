@@ -43,4 +43,66 @@ class BodegaController extends REST_Controller
         }
     }
 
+    public function storeBodega_post()
+    {
+        $data = [
+            'Id' => $this->input->post('id'),
+            'Nombre' => $this->input->post('nombre'),
+            'Descripcion' => $this->input->post('descripcion'),
+        ];
+
+        $result = $this->BodegaModel->insert_bodega($data);
+
+        if ($result) {
+            $this->response([
+                'status' => true,
+                'message' => 'Nueva bodega creada'
+            ], REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Error al crear nueva bodega'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public function editBodega_put($id)
+    {
+        $data = [
+            'Id' => $this->put('id'),
+            'Nombre' => $this->put('nombre'),
+            'Descripcion' => $this->put('descripcion'),
+        ];
+
+        $update_result = $this->BodegaModel->update_bodega($id, $data);
+
+        if ($update_result) {
+            $this->response([
+                'status' => true,
+                'message' => 'Bodega modificada con éxito'
+            ], REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Error al modificar bodega'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public function deleteBodega_delete($id)
+    {
+        $result = $this->BodegaModel->delete_bodega($id);
+        if ($result) {
+            $this->response([
+                'status' => true,
+                'message' => 'Bodega eliminada'
+            ], REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Error al intentar eliminar bodega'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
 }

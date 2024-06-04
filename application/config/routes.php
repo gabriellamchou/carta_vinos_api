@@ -29,6 +29,9 @@ $route['regiones/(:num)/eliminar'] = 'RegionController/deleteRegion/$1';
 
 $route['bodegas'] = 'BodegaController/bodegas';
 $route['bodegas/(:num)'] = 'BodegaController/bodega/$1';
+$route['bodegas/nueva'] = 'BodegaController/storeBodega';
+$route['bodegas/(:num)/editar'] = 'BodegaController/editBodega/$1';
+$route['bodegas/(:num)/eliminar'] = 'BodegaController/deleteBodega/$1';
 
 # Tests
 
