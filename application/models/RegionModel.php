@@ -31,4 +31,22 @@ class RegionModel extends CI_Model
         return $rows;
     }
 
+    public function obtener_region($id) 
+    {
+        $this->db->select(
+            "r.Id AS id,
+            r.Nombre AS nombre,
+            r.Pais AS pais,
+            r.Descripcion AS descripcion"
+        );
+        $this->db->from("region AS r");
+        $this->db->where("r.Id", $id);
+
+        $query = $this->db->get();
+
+        $rows = $query->result_array();
+
+        return $rows;
+    }
+
 }

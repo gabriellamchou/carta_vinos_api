@@ -20,6 +20,7 @@ $route['uvas/(:num)/eliminar'] = 'UvaController/deleteUva/$1';
 # Regiones
 
 $route['regiones'] = 'RegionController/regiones';
+$route['regiones/(:num)'] = 'RegionController/region/$1';
 
 # Tests
 

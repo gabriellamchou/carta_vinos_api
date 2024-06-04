@@ -27,4 +27,21 @@ class RegionController extends REST_Controller
         $this->set_response($datos, REST_Controller::HTTP_OK);
     }
 
+    public function region_get($id) 
+    {
+        $region = $this->RegionModel->obtener_region($id);
+
+        if ($region) {
+            $this->response([
+                'status' => true,
+                'data' => $region[0]
+            ], REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Región no encontrada'
+            ], REST_Controller::HTTP_NOT_FOUND);
+        }
+    }
+
 }
