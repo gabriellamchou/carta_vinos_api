@@ -30,4 +30,20 @@ class TipoModel extends CI_Model
         return $rows;
     }
 
+    public function obtener_tipo($id) {
+        $this->db->select(
+            "t.Id AS id,
+            t.Nombre AS nombre,
+            t.Descripcion AS descripcion"
+        );
+        $this->db->from("tipo AS t");
+        $this->db->where("t.Id", $id);
+
+        $query = $this->db->get();
+
+        $rows = $query->result_array();
+
+        return $rows;
+    }
+
 }

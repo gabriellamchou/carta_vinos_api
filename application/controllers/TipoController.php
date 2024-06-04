@@ -27,4 +27,20 @@ class TipoController extends REST_Controller
         $this->set_response($datos, REST_Controller::HTTP_OK);
     }
 
+    public function tipo_get($id) {
+        $tipo = $this->TipoModel->obtener_tipo($id);
+
+        if ($tipo) {
+            $this->response([
+                'status' => true,
+                'data' => $tipo[0]
+            ], REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Tipo no encontrado'
+            ], REST_Controller::HTTP_NOT_FOUND);
+        }
+    }
+
 }
