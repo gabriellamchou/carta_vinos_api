@@ -25,6 +25,10 @@ $route['regiones/nueva'] = 'RegionController/storeRegion';
 $route['regiones/(:num)/editar'] = 'RegionController/editRegion/$1';
 $route['regiones/(:num)/eliminar'] = 'RegionController/deleteRegion/$1';
 
+# Bodegas
+
+$route['bodegas'] = 'BodegaController/bodegas';
+
 # Tests
 
 $route['default_controller'] = 'welcome';
