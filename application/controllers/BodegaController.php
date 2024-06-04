@@ -27,4 +27,20 @@ class BodegaController extends REST_Controller
         $this->set_response($datos, REST_Controller::HTTP_OK);
     }
 
+    public function bodega_get($id) {
+        $bodega = $this->BodegaModel->obtener_bodega($id);
+
+        if ($bodega) {
+            $this->response([
+                'status' => true,
+                'data' => $bodega[0]
+            ], REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'Bodega no encontrada'
+            ], REST_Controller::HTTP_NOT_FOUND);
+        }
+    }
+
 }

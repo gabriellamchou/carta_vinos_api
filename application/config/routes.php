@@ -28,6 +28,7 @@ $route['regiones/(:num)/eliminar'] = 'RegionController/deleteRegion/$1';
 # Bodegas
 
 $route['bodegas'] = 'BodegaController/bodegas';
+$route['bodegas/(:num)'] = 'BodegaController/bodega/$1';
 
 # Tests
 

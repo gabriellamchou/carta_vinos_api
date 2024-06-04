@@ -30,4 +30,20 @@ class BodegaModel extends CI_Model
         return $rows;
     }
 
+    public function obtener_bodega($id) {
+        $this->db->select(
+            "b.Id AS id,
+            b.Nombre AS nombre,
+            b.Descripcion AS descripcion"
+        );
+        $this->db->from("bodega AS b");
+        $this->db->where("b.Id", $id);
+
+        $query = $this->db->get();
+
+        $rows = $query->result_array();
+
+        return $rows;
+    }
+
 }
