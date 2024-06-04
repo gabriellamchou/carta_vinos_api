@@ -44,4 +44,16 @@ class RegionController extends REST_Controller
         }
     }
 
+    public function storeRegion_post() 
+    {
+        $data = [
+            'Id' => $this->input->post('id'),
+            'Nombre' => $this->input->post('nombre'),
+            'Pais' => $this->input->post('pais'),
+            'Descripcion' => $this->input->post('descripcion'),
+        ];
+
+        $result = $this->RegionModel->insert_region($data);
+    }
+
 }

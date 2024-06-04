@@ -49,4 +49,9 @@ class RegionModel extends CI_Model
         return $rows;
     }
 
+    public function insert_region($data) 
+    {
+        return $this->db->insert('region', $data);
+    }
+
 }
