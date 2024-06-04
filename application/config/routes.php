@@ -17,6 +17,10 @@ $route['uvas/nueva'] = 'UvaController/storeUva';
 $route['uvas/(:num)/editar'] = 'UvaController/editUva/$1';
 $route['uvas/(:num)/eliminar'] = 'UvaController/deleteUva/$1';
 
+# Regiones
+
+$route['regiones'] = 'RegionController/regiones';
+
 # Tests
 
 $route['default_controller'] = 'welcome';

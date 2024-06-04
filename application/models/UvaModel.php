@@ -27,7 +27,7 @@ class UvaModel extends CI_Model
 
         $rows = $query->result_array();
 
-        return ($rows);
+        return $rows;
     }
 
     public function obtener_uva($id) 
