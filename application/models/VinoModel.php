@@ -49,12 +49,14 @@ class VinoModel extends CI_Model
             v.Graduacion,
             v.BreveDescripcion,
             v.Capacidad,
-            v.Stock"
+            v.Stock,
+            i.Imagen AS Imagen"
         );
         $this->db->from("vino AS v");
         $this->db->join("tipo AS t", "v.IdTipoVino = t.Id", "left");
         $this->db->join("region AS r", "v.IdRegion = r.Id", "left");
         $this->db->join("bodega AS b", "v.IdBodega = b.Id", "left");
+        $this->db->join("imagen_vino AS i", "i.IdVino = v.Id", "left");
 
         if (!empty($criterios["vinoId"])) {
             $this->db->where("v.Id", $criterios["vinoId"]);
@@ -64,7 +66,22 @@ class VinoModel extends CI_Model
 
         $rows = $query->result_array();
 
-        return ($rows);
+        $result = [];
+        foreach ($rows as $row) {
+            if (!isset($result[$row['Id']])) {
+                $result[$row['Id']] = $row;
+                $result[$row['Id']]['Imagenes'] = [];
+            }
+            if ($row['Imagen']) {
+                $result[$row['Id']]['Imagenes'][] = $row['Imagen'];
+            }
+        }
+
+        foreach ($result as &$vino) {
+            unset($vino['Imagen']);
+        }
+
+        return array_values($result);
     }
 
     # Devuelve vino por id

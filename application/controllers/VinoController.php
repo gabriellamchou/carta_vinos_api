@@ -20,6 +20,15 @@ class VinoController extends REST_Controller
     {
         $lista_vinos = $this->VinoModel->obtener_vinos_list();
 
+        // Convertir imágenes a data URLs
+        foreach ($lista_vinos as &$vino) {
+            foreach ($vino['Imagenes'] as $key => $image) {
+                if ($image) {
+                    $vino['Imagenes'][$key] = 'data:image/jpeg;base64,' . base64_encode($image);
+                }
+            }
+        }
+
         $datos = array(
             'lista_vinos' => $lista_vinos
         );
